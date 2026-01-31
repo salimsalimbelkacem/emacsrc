@@ -8,23 +8,14 @@
 (unless (package-installed-p 'evil)
   (package-install 'evil))
 
+(unless (package-installed-p 'evil-leader)
+  (package-install 'evil-leader))
+
 (unless (package-installed-p 'kanagawa-themes)
   (package-install 'kanagawa-themes))
 
-(setq evil-undo-system 'undo-redo)
-(require 'evil)
-(evil-mode 1)
+(unless (package-installed-p 'magit)
+  (package-install 'magit))
 
-(require 'kanagawa-themes)
-(load-theme 'kanagawa-wave t)
-
-
-;(setq python-shell-interpreter "ipython"
-;    python-shell-interpreter-args "-i --simple-prompt")
-
-;(org-babel-do-load-languages 'org-babel-load-languages '((python . t)))
-
-;(setq org-babel-python-command "ipython --simple-prompt")
-
-;(require 'ob-python)
-;(setq org-babel-python-command "ipython")
+(unless (package-installed-p 'spacious-padding)
+  (package-install 'spacious-padding))
