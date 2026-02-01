@@ -1,3 +1,5 @@
+(load "~/.emacs.d/packages.el")
+
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
@@ -10,12 +12,17 @@
 
 (setq-default display-line-numbers-type 'relative)
 
-(load "~/.emacs.d/packages.el")
 
 (spacious-padding-mode 1)
 
+
+(setq evil-want-keybinding nil)
+
 (require 'evil)
 (require 'evil-leader)
+(require 'evil-collection)
+
+(evil-collection-init)
 
 (global-evil-leader-mode)
 (evil-leader/set-leader "SPC")
@@ -24,7 +31,8 @@
   "e" 'dired-jump
 
   "gg" 'magit-status
-  "gc" 'magit-clone
+  "gc" 'magit-commit
+  "gC" 'magit-clone
   "gp" 'magit-push
   "gP" 'magit-pull
   )
@@ -41,8 +49,9 @@
  ;; If there is more than one, they won't work right.
  '(evil-undo-system 'undo-redo)
  '(package-selected-packages
-   '(elpy evil goto-last-change kanagawa-themes lsp-mode magit
-	  org-babel-eval-in-repl slime spacious-padding undo-tree))
+   '(elpy evil evil-collection goto-last-change kanagawa-themes lsp-mode
+	  magit org-babel-eval-in-repl slime spacious-padding
+	  undo-tree))
  '(spacious-padding-widths
    '(:internal-border-width 20 :header-line-width 4 :mode-line-width 6
 			    :custom-button-width 3 :tab-width 4

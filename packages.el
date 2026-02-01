@@ -11,6 +11,9 @@
 (unless (package-installed-p 'evil-leader)
   (package-install 'evil-leader))
 
+(unless (package-installed-p 'evil-collection)
+  (package-install 'evil-collection))
+
 (unless (package-installed-p 'kanagawa-themes)
   (package-install 'kanagawa-themes))
 
@@ -19,3 +22,4 @@
 
 (unless (package-installed-p 'spacious-padding)
   (package-install 'spacious-padding))
+
