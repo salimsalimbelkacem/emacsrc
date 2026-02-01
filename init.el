@@ -31,9 +31,9 @@
   "e" 'dired-jump
 
   "gg" 'magit-status
-  "gc" 'magit-commit
+  "gc" 'magit-commit-create
   "gC" 'magit-clone
-  "gp" 'magit-push
+  "gp" 'magit-push-current-to-upstream
   "gP" 'magit-pull
   )
 
