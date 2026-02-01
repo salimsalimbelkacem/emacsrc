@@ -1,4 +1,5 @@
-(load "~/.emacs.d/packages.el")
+(load "~/.emacs.d/packages.el") (setq custom-file "~/.emacs.d/custom.el")
+
 
 ;;; LOOKS AND FEELS ----------------
 
