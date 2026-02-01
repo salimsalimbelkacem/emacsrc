@@ -1,8 +1,10 @@
-(load "~/.emacs.d/packages.el")
+(load "~/.emacs.d/packages.el") (setq custom-file "~/.emacs.d/custom.el")
 
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
+;;; LOOKS AND FEELS ----------------
+
+(menu-bar-mode 0)
+(tool-bar-mode 0)
+(scroll-bar-mode 0)
 (global-display-line-numbers-mode)
 
 (setq create-lockfiles nil)
@@ -10,18 +12,31 @@
 (setq scroll-conservatively 101)
 (setq make-backup-files nil)
 
+(setq scroll-margin 10)
+
 (setq-default display-line-numbers-type 'relative)
 
 
 (spacious-padding-mode 1)
 
 
+(set-face-attribute 'default nil :font "JetBrainsMono Nerd Font-11")
+
+;;; PACKAGES? ---------------------
 (setq evil-want-keybinding nil)
 
+(require 'kanagawa-themes)
 (require 'evil)
 (require 'evil-leader)
 (require 'evil-collection)
+(require 'dashboard)
 
+(setq initial-buffer-choice 'dashboard-open)
+
+(load-theme 'kanagawa-dragon t)
+(dashboard-setup-startup-hook)
+
+;; evil
 (evil-collection-init)
 
 (global-evil-leader-mode)
@@ -35,33 +50,13 @@
   "gC" 'magit-clone
   "gp" 'magit-push-current-to-upstream
   "gP" 'magit-pull
+
+  "cc" 'compile
   )
 
 (evil-mode 1)
 
-(require 'kanagawa-themes)
-(load-theme 'kanagawa-dragon t)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(evil-undo-system 'undo-redo)
- '(package-selected-packages
-   '(elpy evil evil-collection goto-last-change kanagawa-themes lsp-mode
-	  magit org-babel-eval-in-repl slime spacious-padding
-	  undo-tree))
- '(spacious-padding-widths
-   '(:internal-border-width 20 :header-line-width 4 :mode-line-width 6
-			    :custom-button-width 3 :tab-width 4
-			    :right-divider-width 30 :scroll-bar-width
-			    8 :fringe-width 8))
- '(warning-suppress-log-types '((native-compiler))))
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+;;; CODE COMPLETION, HIGHLIGHTS AND LSP ---------------
+(add-hook 'prog-mode-hook 'eglot-ensure)
+(add-hook 'prog-mode-hook #'tree-sitter-mode)
