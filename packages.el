@@ -28,3 +28,12 @@
 
 (unless (package-installed-p 'tree-sitter-langs)
   (package-install 'tree-sitter-langs))
+
+(unless (package-installed-p 'dashboard)
+  (package-install 'dashboard))
+
+(unless (package-installed-p 'yasnippet)
+  (package-install 'yasnippet))
+
+(unless (package-installed-p 'yasnippet-snippets)
+  (package-install 'yasnippet-snippets))
