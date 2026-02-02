@@ -2,8 +2,7 @@
 
 ;;; PACKAGES -----------------------
 (require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
 (package-initialize)
 
@@ -18,12 +17,7 @@
 	spacious-padding
 	dashboard
 
-	which-key
-
-	tree-sitter-langs
-
 	treemacs
-
 	lsp-mode
 	lsp-treemacs
 	lsp-ui
@@ -54,23 +48,31 @@
 (setq make-backup-files nil)
 (setq scroll-margin 10)
 
-(set-face-attribute 'fill-column-indicator nil
-                      :foreground "#717C7C"
-                      :background "transparent")
-
 (spacious-padding-mode 1)
 
 (setq spacious-padding-widths
       '(:internal-border-width 20
 	:header-line-width 4
 	:mode-line-width 6
-	:custom-button-width 3 
+	:custom-button-width 3
 	:tab-width 4
 	:right-divider-width 30
 	:scroll-bar-width 8
 	:fringe-width 8))
 
 (set-face-attribute 'default nil :font "JetBrainsMono Nerd Font-10")
+
+(setq which-key-idle-delay 0.5)
+
+(which-key-mode)
+
+(load-theme 'kanagawa-wave t)
+
+(set-frame-parameter nil 'alpha-background 80)
+
+(add-to-list 'default-frame-alist '(alpha-background . 85))
+
+(dashboard-setup-startup-hook)
 
 ;;; PACKAGES CONFIG ---------------------
 (setq evil-want-keybinding nil)
@@ -80,13 +82,6 @@
 (require 'evil)
 (require 'evil-leader)
 (require 'evil-collection)
-(require 'dashboard)
-
-;; theme
-(load-theme 'kanagawa-dragon t)
-
-;; dashboard splash screen
-(dashboard-setup-startup-hook)
 
 ;; evil
 (evil-collection-init)
@@ -95,7 +90,7 @@
 (evil-leader/set-leader "SPC")
 
 (evil-leader/set-key
-  "e" 'treemacs
+  "e" 'dired-jump
 
   "gg" 'magit-status
   "gc" 'magit-commit-create
@@ -106,16 +101,14 @@
   "cc" 'compile
 
   "t" 'tetris
+
+  "x" 'lsp-treemacs-errors-list
   )
 
-(evil-mode 1)
-(which-key-mode)
+(evil-global-set-key 'normal "gc" 'comment-line)
+(evil-global-set-key 'visual "gc" 'comment-line)
 
-(use-package treemacs
-  :ensure t
-  :defer t
-  :config
-  (progn (setq treemacs-position 'right)))
+(evil-mode 1)
 
 ;;; SNIPPETS, HIGHLIGHTS AND LSP ---------------
 (setq lsp-warn-no-matched-clients nil)
@@ -128,18 +121,7 @@
 (setq company-idle-delay 0.1)
 (global-company-mode)
 
-(setq major-mode-remap-alist
-      '((c-mode           . c-ts-mode)
-        (c++-mode         . c++-ts-mode)
-        (go-mode          . go-ts-mode)
-        (java-mode        . java-ts-mode)
-        (python-mode      . python-ts-mode)
-        (js-mode          . js-ts-mode)
-        (typescript-mode  . typescript-ts-mode)
-        (json-mode        . json-ts-mode)
-        (css-mode         . css-ts-mode)
-        ))
-(add-hook 'prog-mode-hook 'tree-sitter-hl-mode)
+(flycheck-mode)
 
 (add-hook 'prog-mode-hook #'lsp)
 (with-eval-after-load 'lsp-mode
