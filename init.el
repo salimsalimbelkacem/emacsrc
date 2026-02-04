@@ -20,10 +20,15 @@
 	treemacs
 	lsp-mode lsp-treemacs lsp-ui
 
+	tree-sitter-langs
+
 	company
 	yasnippet yasnippet-snippets
 
 	flycheck
+
+	websocket
+	typst-preview
 	))
 
 (when (cl-find-if-not #'package-installed-p package-selected-packages)
@@ -70,6 +75,7 @@
 
 (dashboard-setup-startup-hook)
 
+(setq dired-listing-switches "-alh")
 ;;; PACKAGES CONFIG ---------------------
 (setq evil-want-keybinding nil)
 (setq evil-undo-system 'undo-redo)
@@ -94,7 +100,7 @@
   "gp" 'magit-push-current-to-upstream
   "gP" 'magit-pull
 
-  "cc" 'compile
+  "c" 'compile
 
   "t" 'tetris
 
@@ -125,7 +131,17 @@
 
 (flycheck-mode)
 
-(add-hook 'prog-mode-hook #'lsp)
+(setq major-mode-remap-alist
+      '((c-mode           . c-ts-mode)
+        (c++-mode         . c++-ts-mode)
+        (go-mode          . go-ts-mode)
+        (java-mode        . java-ts-mode)
+        (python-mode      . python-ts-mode)
+        (js-mode          . js-ts-mode)
+        (typescript-mode  . typescript-ts-mode)
+        (json-mode        . json-ts-mode)
+        (css-mode         . css-ts-mode)))
+
 (with-eval-after-load 'lsp-mode
   (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
   (yas-global-mode))
@@ -151,26 +167,12 @@
 	 entry (file+datetree "~/org/uni/s2/general.org")
 	 "* %?"
 	 :empty-lines 0)
-	("uc" "crypto")
-	("ucn" "crypto notes"
-	 entry (file+datetree "~/org/uni/s2/crypto.org")
-	 "* %?"
-	 :empty-lines 0)
-	("usct" "crypto tasks"
-	 entry (file+datetree "~/org/uni/s2/crypto.org")
-	 "* TODO [#B] %?\n:"
+
+	("ut" "general todos"
+	 entry (file+datetree "~/org/uni/s2/general.org")
+	 "* TODO [B]\n%?"
 	 :empty-lines 0)
 
-	("uv" "computer vision")
-	("uvn" "computer vision notes"
-	 entry (file+datetree "~/org/uni/s2/computer_vision.org")
-	 "** %?"
-	 :empty-lines 0)
-
-	("uvt" "computer vision tasks"
-	 entry (file+datetree "~/org/uni/s2/computer_vision.org")
-	 "* TODO [#B] %?\n:"
-	 :empty-lines 0)
 	))
 
 (setq org-todo-keywords
