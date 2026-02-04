@@ -3,13 +3,13 @@
 ;;; PACKAGES -----------------------
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 
 (package-initialize)
 
 (setq package-selected-packages
-      '(evil
-	evil-leader
-	evil-collection
+      '(
+	evil evil-leader evil-collection
 
 	magit
 
@@ -18,14 +18,10 @@
 	dashboard
 
 	treemacs
-	lsp-mode
-	lsp-treemacs
-	lsp-ui
+	lsp-mode lsp-treemacs lsp-ui
 
 	company
-
-	yasnippet
-	yasnippet-snippets
+	yasnippet yasnippet-snippets
 
 	flycheck
 	))
@@ -102,7 +98,13 @@
 
   "t" 'tetris
 
+  "oc" #'org-capture
+  "oa" #'org-agenda
+  "ol" #'org-store-link
+
   "x" 'lsp-treemacs-errors-list
+
+  "f" 'find-file
   )
 
 (evil-global-set-key 'normal "gc" 'comment-line)
@@ -128,3 +130,48 @@
   (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
   (yas-global-mode))
 
+
+;;; org mode -----------------------------------
+
+(setq org-agenda-files '("~/org"))
+(setq org-hide-emphasis-markers t)
+
+(add-hook 'org-mode-hook 'org-indent-mode)
+(add-hook 'org-mode-hook 'visual-line-mode)
+
+(setq org-capture-templates
+      '(    
+	("g" "unimportant list"
+	 entry (file+headline "~/org/not_important.org" "yaeh")
+	 "** %?"
+	 :empty-lines 0)
+	
+	("u" "university")
+	("ug" "general notes"
+	 entry (file+datetree "~/org/uni/s2/general.org")
+	 "* %?"
+	 :empty-lines 0)
+	("uc" "crypto")
+	("ucn" "crypto notes"
+	 entry (file+datetree "~/org/uni/s2/crypto.org")
+	 "* %?"
+	 :empty-lines 0)
+	("usct" "crypto tasks"
+	 entry (file+datetree "~/org/uni/s2/crypto.org")
+	 "* TODO [#B] %?\n:"
+	 :empty-lines 0)
+
+	("uv" "computer vision")
+	("uvn" "computer vision notes"
+	 entry (file+datetree "~/org/uni/s2/computer_vision.org")
+	 "** %?"
+	 :empty-lines 0)
+
+	("uvt" "computer vision tasks"
+	 entry (file+datetree "~/org/uni/s2/computer_vision.org")
+	 "* TODO [#B] %?\n:"
+	 :empty-lines 0)
+	))
+
+(setq org-todo-keywords
+      '((sequence "TODO(t)"  "IN-PROGRESS(i@/!)" "VERIFYING(v!)" "BLOCKED(b@)"  "|" "DONE(d!)" "WONT-DO(w@/!)" )))
