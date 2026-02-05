@@ -29,6 +29,9 @@
 
 	websocket
 	typst-preview
+
+	olivetti
+	org-superstar
 	))
 
 (when (cl-find-if-not #'package-installed-p package-selected-packages)
@@ -57,7 +60,7 @@
 	:mode-line-width 6
 	:custom-button-width 3
 	:tab-width 4
-	:right-divider-width 30
+	;:right-divider-width 30
 	:scroll-bar-width 8
 	:fringe-width 8))
 
@@ -152,28 +155,40 @@
 (setq org-agenda-files '("~/org"))
 (setq org-hide-emphasis-markers t)
 
-(add-hook 'org-mode-hook 'org-indent-mode)
-(add-hook 'org-mode-hook 'visual-line-mode)
+;; Olivetti Margin Width
+
+(setq olivetti-margin-width 5)
+
+(setq org-adapt-indentation t
+      org-hide-leading-stars t
+      org-hide-emphasis-markers t
+      org-pretty-entities t
+	  org-ellipsis "  ·")
 
 (setq org-capture-templates
       '(    
-	("g" "unimportant list"
-	 entry (file+headline "~/org/not_important.org" "yaeh")
-	 "** %?"
+	("u" "unimportant list"
+	 entry (file "~/org/not_important.org")
+	 "* %?"
 	 :empty-lines 0)
 	
-	("u" "university")
-	("ug" "general notes"
-	 entry (file+datetree "~/org/uni/s2/general.org")
+	("g" "general notes"
+	 entry (file+datetree "~/org//general.org")
 	 "* %?"
 	 :empty-lines 0)
 
-	("ut" "general todos"
-	 entry (file+datetree "~/org/uni/s2/general.org")
-	 "* TODO [B]\n%?"
+	("t" "general todos"
+	 entry (file+datetree "~/org/general.org")
+	 "* TODO [#B] %?\n"
 	 :empty-lines 0)
-
 	))
+
 
 (setq org-todo-keywords
       '((sequence "TODO(t)"  "IN-PROGRESS(i@/!)" "VERIFYING(v!)" "BLOCKED(b@)"  "|" "DONE(d!)" "WONT-DO(w@/!)" )))
+
+
+(add-hook 'org-mode-hook 'org-indent-mode)
+(add-hook 'org-mode-hook 'visual-line-mode)
+(add-hook 'org-mode-hook 'olivetti-mode)
+(add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
