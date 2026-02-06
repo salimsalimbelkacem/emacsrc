@@ -114,6 +114,7 @@
   "x" 'lsp-treemacs-errors-list
 
   "f" 'find-file
+  "w" 'save-buffer
   )
 
 (evil-global-set-key 'normal "gc" 'comment-line)
@@ -157,7 +158,7 @@
 
 ;; Olivetti Margin Width
 
-(setq olivetti-margin-width 5)
+(setq olivetti-margin-width 0)
 
 (setq org-adapt-indentation t
       org-hide-leading-stars t
