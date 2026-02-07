@@ -32,6 +32,7 @@
 
 	olivetti
 	org-superstar
+	org-modern
 	))
 
 (when (cl-find-if-not #'package-installed-p package-selected-packages)
@@ -46,13 +47,16 @@
 (electric-pair-mode)
 
 (setq-default display-line-numbers-type 'relative)
-(setq create-lockfiles nil)
-(setq auto-save-default nil)
-(setq scroll-conservatively 101)
-(setq make-backup-files nil)
-(setq scroll-margin 10)
 
-(spacious-padding-mode 1)
+(setq
+ create-lockfiles nil
+ auto-save-default nil
+ scroll-conservatively 101
+ make-backup-files nil
+ scroll-margin 10
+ which-key-idle-delay 0.5
+ dired-listing-switches "-alhv"
+ )
 
 (setq spacious-padding-widths
       '(:internal-border-width 20
@@ -64,9 +68,9 @@
 	:scroll-bar-width 8
 	:fringe-width 8))
 
-(set-face-attribute 'default nil :font "JetBrainsMono Nerd Font-10")
+(spacious-padding-mode 1)
 
-(setq which-key-idle-delay 0.5)
+(set-face-attribute 'default nil :font "JetBrainsMono Nerd Font-10")
 
 (which-key-mode)
 
@@ -78,15 +82,12 @@
 
 (dashboard-setup-startup-hook)
 
-(setq dired-listing-switches "-alh")
 ;;; PACKAGES CONFIG ---------------------
-(setq evil-want-keybinding nil)
-(setq evil-undo-system 'undo-redo)
-(setq initial-buffer-choice 'dashboard-open)
-
-(require 'evil)
-(require 'evil-leader)
-(require 'evil-collection)
+(setq
+ evil-want-keybinding nil
+ evil-undo-system 'undo-redo
+ initial-buffer-choice 'dashboard-open
+ )
 
 ;; evil
 (evil-collection-init)
@@ -129,11 +130,11 @@
       '((company-capf company-yasnippet)
         company-files
         company-dabbrev))
+
 (setq company-minimum-prefix-length 1)
 (setq company-idle-delay 0.1)
-(global-company-mode)
 
-(flycheck-mode)
+(global-company-mode)
 
 (setq major-mode-remap-alist
       '((c-mode           . c-ts-mode)
@@ -146,25 +147,35 @@
         (json-mode        . json-ts-mode)
         (css-mode         . css-ts-mode)))
 
-(with-eval-after-load 'lsp-mode
-  (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
-  (yas-global-mode))
+(add-hook 'prog-mode 'lsp)
 
+(with-eval-after-load 'lsp
+  (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
+  (yas-global-mode)
+  (flycheck-mode))
 
 ;;; org mode -----------------------------------
 
-(setq org-agenda-files '("~/org"))
-(setq org-hide-emphasis-markers t)
+(setq
+ org-agenda-files '("~/org")
+ org-hide-emphasis-markers t
 
-;; Olivetti Margin Width
+ olivetti-margin-width 0
+ olivetti-body-width 140
 
-(setq olivetti-margin-width 0)
 
-(setq org-adapt-indentation t
-      org-hide-leading-stars t
-      org-hide-emphasis-markers t
-      org-pretty-entities t
-	  org-ellipsis "  ·")
+ org-adapt-indentation t
+ org-hide-leading-stars t
+ org-hide-emphasis-markers t
+ org-pretty-entities t
+ org-ellipsis "  ·"
+
+ org-modern-tag nil
+ org-modern-priority nil
+ org-modern-todo nil
+ org-modern-table nil
+ )
+
 
 (setq org-capture-templates
       '(    
@@ -188,6 +199,7 @@
 (setq org-todo-keywords
       '((sequence "TODO(t)"  "IN-PROGRESS(i@/!)" "VERIFYING(v!)" "BLOCKED(b@)"  "|" "DONE(d!)" "WONT-DO(w@/!)" )))
 
+(global-org-modern-mode)
 
 (add-hook 'org-mode-hook 'org-indent-mode)
 (add-hook 'org-mode-hook 'visual-line-mode)
