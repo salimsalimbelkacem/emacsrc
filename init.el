@@ -86,6 +86,7 @@
 (setq
  evil-want-keybinding nil
  evil-undo-system 'undo-redo
+
  initial-buffer-choice 'dashboard-open
  )
 
@@ -124,17 +125,15 @@
 (evil-mode 1)
 
 ;;; SNIPPETS, HIGHLIGHTS AND LSP ---------------
-(setq lsp-warn-no-matched-clients nil)
+(setq lsp-warn-no-matched-clients nil 
 
-(setq company-backends
-      '((company-capf company-yasnippet)
-        company-files
-        company-dabbrev))
+      company-backends '((company-capf company-yasnippet)
+			 company-files
+			 company-dabbrev)
 
-(setq company-minimum-prefix-length 1)
-(setq company-idle-delay 0.1)
-
-(global-company-mode)
+      company-minimum-prefix-length 1
+      company-idle-delay 0.1
+      )
 
 (setq major-mode-remap-alist
       '((c-mode           . c-ts-mode)
@@ -147,8 +146,8 @@
         (json-mode        . json-ts-mode)
         (css-mode         . css-ts-mode)))
 
+(global-company-mode)
 (add-hook 'prog-mode 'lsp)
-
 (with-eval-after-load 'lsp
   (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
   (yas-global-mode)
@@ -163,7 +162,6 @@
  olivetti-margin-width 0
  olivetti-body-width 140
 
-
  org-adapt-indentation t
  org-hide-leading-stars t
  org-hide-emphasis-markers t
@@ -174,30 +172,28 @@
  org-modern-priority nil
  org-modern-todo nil
  org-modern-table nil
+
+ org-capture-templates '(    
+			 ("u" "unimportant list"
+			  entry (file "~/org/not_important.org")
+			  "* TODO [#B] %?\n:"
+			  :empty-lines 0)
+			 
+			 ("g" "general notes"
+			  entry (file+datetree "~/org//general.org")
+			  "* %?"
+			  :empty-lines 0)
+
+			 ("t" "general todos"
+			  entry (file+datetree "~/org/general.org")
+			  "* TODO [#B] %?\n:"
+			  :empty-lines 0))
+
+ org-todo-keywords '(
+		     (sequence "TODO(t)" "IN-PROGRESS(i@/!)"
+			       "VERIFYING(v!)" "BLOCKED(b@)"  "|"
+			       "DONE(d!)" "WONT-DO(w@/!)"))
  )
-
-
-(setq org-capture-templates
-      '(    
-	("u" "unimportant list"
-	 entry (file "~/org/not_important.org")
-	 "* %?"
-	 :empty-lines 0)
-	
-	("g" "general notes"
-	 entry (file+datetree "~/org//general.org")
-	 "* %?"
-	 :empty-lines 0)
-
-	("t" "general todos"
-	 entry (file+datetree "~/org/general.org")
-	 "* TODO [#B] %?\n"
-	 :empty-lines 0)
-	))
-
-
-(setq org-todo-keywords
-      '((sequence "TODO(t)"  "IN-PROGRESS(i@/!)" "VERIFYING(v!)" "BLOCKED(b@)"  "|" "DONE(d!)" "WONT-DO(w@/!)" )))
 
 (global-org-modern-mode)
 
